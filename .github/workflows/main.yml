@@ -20,5 +20,5 @@ jobs:
           sudo apt-get install -y figlet
           figlet "GH-200 CoHACK"
           echo "-------------------------"
-          figlet -f slant "GitHub Actions"
+          figlet -f digital "GitHub Actions"
           echo "ASCII art generated"
