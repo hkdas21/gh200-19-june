@@ -40,3 +40,4 @@ jobs:
           echo "Step Var: $STEP_VAR"
           echo "GitHub Actor: $GITHUB_ACTOR"
           echo "Repo: $GITHUB_REPOSITORY"
+          echo "completed"
