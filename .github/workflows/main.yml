@@ -25,4 +25,5 @@ jobs:
 
       - name: Run Shell Script
         run: |
+          chmod +x ./scripts/welcome.sh
           ./scripts/welcome.sh
