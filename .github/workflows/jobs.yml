@@ -29,15 +29,29 @@ jobs:
           echo "Secret is configured: ${{ secrets.MY_API_KEY != '' }}"
           echo "Using secret safely in script (masked in logs)"
 
-
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.os }}
+    needs: setup
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.10', '3.11', '3.12']
+        exclude:
+          - os: windows-latest        # Skip this combo
+            python-version: '3.10'
+        include:
+          - os: ubuntu-latest         # Add extra config
+            python-version: '3.12'
+            experimental: true
+      fail-fast: false               # Don't cancel others if one fails
+      max-parallel: 3
     steps:
-      - name: Show variable
+      - name: 🐍 Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: 🧪 Run Tests
         run: |
-          echo "Workshop: $WORKSHOP_NAME"
-          echo "Job Env: $JOB_ENV"
-          echo "Step Var: $STEP_VAR"
-          echo "GitHub Actor: $GITHUB_ACTOR"
-          echo "Repo: $GITHUB_REPOSITORY"
-          echo "completed"
+          echo "Testing on ${{ matrix.os }} with Python ${{ matrix.python-version }}"
+          python --version
+  
